@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SecretKeyMiddleware
 {
@@ -13,6 +14,7 @@ class SecretKeyMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        Log::info('Header', $request->toArray());
         if (env('SECRET_KEY') !== $request->header('X-Secret-Key')) {
             throw new HttpClientException('Incorrect Secret Key', 403);
         }
