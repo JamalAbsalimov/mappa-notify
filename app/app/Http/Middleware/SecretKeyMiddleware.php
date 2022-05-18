@@ -14,7 +14,7 @@ class SecretKeyMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        Log::info('Header', $request->toArray());
+        Log::info('Header',[$request->header('X-Secret-Key')]);
         if (env('SECRET_KEY') !== $request->header('X-Secret-Key')) {
             throw new HttpClientException('Incorrect Secret Key', 403);
         }
