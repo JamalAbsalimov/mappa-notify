@@ -30,7 +30,6 @@ class NotificationMailProcedures extends Procedure
      */
     public function handle(Request $request)
     {
-        Log::info('Новый запрос', $request->all());
 
         Mail::to($request->input('email'))->send(new ResetPassword($request->input('newPassword'), $request->input('email')));
 
