@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  nginx-notify:
+    build:
+      context: ./docker/nginx
+    environment:
+      TZ: "Europe/Moscow"
+    volumes:
+      - ./app:/app
+    depends_on:
+      - php-notify
+    networks:
+      default:
+        ipv4_address: 172.10.0.104
+  php-notify:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./app:/app
+    depends_on:
+      - memcached-notify
+    extra_hosts:
+      - "api-mappa.local:172.10.0.102"
+      - host.docker.internal:host-gateway
+    environment:
+      TZ: "Europe/Moscow"
+      PHP_IDE_CONFIG: serverName=mappaNotify
+    networks:
+      default:
+        ipv4_address: 172.10.0.103
+        aliases:
+          - mappa_notify
+  memcached-notify:
+    image: memcached:1.6.15
+networks:
+  default:
+    external:
+      name: mappa
