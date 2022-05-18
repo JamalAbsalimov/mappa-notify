@@ -95,6 +95,8 @@ return [
         ],
     ],
 
+    'secret_key' => env('SECRET_KEY'),
+
     /*
     |--------------------------------------------------------------------------
     | Password Confirmation Timeout
